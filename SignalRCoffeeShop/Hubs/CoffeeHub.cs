@@ -14,6 +14,7 @@ namespace SignalRCoffeeShop.Hubs
         public async Task GetUpdateForOrder(Order order)
         {
             await Clients.Others.NewOrder(order);
+
             UpdateInfo result;
             do
             {
@@ -25,7 +26,7 @@ namespace SignalRCoffeeShop.Hubs
                 }
 
                 await Clients.Caller.ReceiveOrderUpdate(result);
-                await Clients.Group(("allUpdateReceivers")).ReceiveOrderUpdate(result);
+                await Clients.Group("allUpdateReceivers").ReceiveOrderUpdate(result);
 
             } while (!result.Finished);
 

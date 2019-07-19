@@ -7,24 +7,13 @@ namespace SignalRCoffeeShop.Helpers
     public class OrderChecker
     {
         private readonly Random _random;
-        private readonly string[] _status = { "Grinding beans", "Stemming milk", "Taking a sip (quality control)" };
+        private readonly string[] _status = { "Grinding beans", "Stemming milk", "Taking a sip (quality control)", "Order Completed" };
         private readonly Dictionary<int, int> _statusTracker = new Dictionary<int, int>();
 
         public OrderChecker(Random random)
         {
             this._random = random;
         }
-
-        private int GetNextStatusIndex(int orderNo)
-        {
-            if (!_statusTracker.ContainsKey(orderNo))
-            {
-                _statusTracker.Add(orderNo, -1);
-            }
-            _statusTracker[orderNo]++;
-            return _statusTracker[orderNo];
-        }
-
         public UpdateInfo GetUpdate(Order order)
         {
             if (_random.Next(1, 5) != 4)
@@ -47,5 +36,16 @@ namespace SignalRCoffeeShop.Helpers
                 Finished = _status.Length - 1 == index
             };
         }
+
+        private int GetNextStatusIndex(int orderNo)
+        {
+            if (!_statusTracker.ContainsKey(orderNo))
+            {
+                _statusTracker.Add(orderNo, -1);
+            }
+            _statusTracker[orderNo]++;
+            return _statusTracker[orderNo];
+        }
+
     }
 }
